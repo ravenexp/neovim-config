@@ -169,7 +169,7 @@ local lsp_config = require('lspconfig')
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'pylsp' }
+local servers = { 'pylsp', 'taplo', 'prosemd_lsp' }
 for _, lsp in pairs(servers) do
   lsp_config[lsp].setup {
     on_attach = on_attach,

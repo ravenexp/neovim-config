@@ -19,6 +19,8 @@ Supports the following LSP servers:
 - `clangd`
 - `pylsp`
 - `sumneko`
+- `taplo`
+- `prosemd_lsp`
 
 Key mappings
 ------------
