@@ -9,6 +9,7 @@ require('packer').startup(function()
   local use = require('packer').use
   use 'wbthomason/packer.nvim' -- Package manager
   use 'terrortylor/nvim-comment' -- "gc" to comment visual regions/lines
+  use 'johnfrankmorgan/whitespace.nvim' -- highlight trailing whitespace
   use 'godlygeek/tabular' -- Markdown table formattring
   -- UI to select things (files, grep results, open buffers...)
   use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
@@ -42,6 +43,8 @@ vim.o.smartcase = true
 vim.o.wildignore = '.mypy_cache,.tox,*_venv,target'
 
 require('nvim_comment').setup()
+require('whitespace-nvim').setup()
+
 require('ayu').colorscheme()
 require('lualine').setup {
   options = {
