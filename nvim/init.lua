@@ -26,6 +26,7 @@ require('packer').startup(function()
   use 'nvim-treesitter/nvim-treesitter-textobjects'
   use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
   use 'simrat39/rust-tools.nvim'
+  use 'p00f/clangd_extensions.nvim'
   use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
   use 'hrsh7th/cmp-nvim-lsp'
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
@@ -59,7 +60,7 @@ vim.keymap.set('n', 'ш', 'i')
 require('gitsigns').setup()
 
 -- Telescope
-require('telescope').setup()
+require('telescope').setup {}
 
 --Add leader shortcuts
 do
@@ -163,15 +164,24 @@ end
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
+local lsp_config = require('lspconfig')
+
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'clangd', 'pylsp' }
+local servers = { 'pylsp' }
 for _, lsp in pairs(servers) do
-  require('lspconfig')[lsp].setup {
+  lsp_config[lsp].setup {
     on_attach = on_attach,
     capabilities = capabilities,
   }
 end
+
+require('clangd_extensions').setup {
+  server = {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
+}
 
 require('rust-tools').setup {
   server = {
@@ -185,7 +195,7 @@ local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
 
-require 'lspconfig'.sumneko_lua.setup {
+lsp_config.sumneko_lua.setup {
   on_attach = on_attach,
   capabilities = capabilities,
   settings = {
@@ -226,7 +236,7 @@ cmp.setup {
   mapping = cmp.mapping.preset.insert({
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-Space>'] = cmp.mapping.complete {},
     ['<CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
