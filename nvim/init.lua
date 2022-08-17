@@ -160,6 +160,7 @@ local on_attach = function(_, bufnr)
   vim.keymap.set('n', '<leader>rn', cmd.rename, opts)
   vim.keymap.set('n', '<leader>ca', cmd.code_action, opts)
   vim.keymap.set('n', '<leader>f', cmd.formatting, opts)
+  vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
 end
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
